@@ -74,9 +74,9 @@ function Heading({ id, extra, anim, children }: { id: string; extra?: string; an
   );
 }
 
-function BookingButton({ id }: { id: string }) {
+function BookingButton({ id, pulse = false }: { id: string; pulse?: boolean }) {
   return (
-    <Widget id={id} type="button" extra="heartbeat-button elementor-align-center elementor-hidden-desktop elementor-hidden-tablet">
+    <Widget id={id} type="button" extra={`heartbeat-button${pulse ? " fg-heartbeat" : ""} elementor-align-center elementor-hidden-desktop elementor-hidden-tablet`}>
       <div className="elementor-button-wrapper">
         <a className="elementor-button elementor-button-link elementor-size-sm" href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
           <span className="elementor-button-content-wrapper">
@@ -121,7 +121,7 @@ export default function HomePage() {
                     <div data-elementor-type="wp-page" data-elementor-id="9" className="elementor elementor-9">
                       {/* Mobile-only booking button (the injected casino links that followed it on the original are removed) */}
                       <Boxed id="e40d818">
-                        <BookingButton id="24ec449" />
+                        <BookingButton id="24ec449" pulse />
                       </Boxed>
 
                       {/* Damen / Herren */}
@@ -138,7 +138,7 @@ export default function HomePage() {
                               priority
                             />
                           </Widget>
-                          <Heading id="27f0c03" extra="heartbeat-button">Damen</Heading>
+                          <Heading id="27f0c03" extra="heartbeat-button fg-heartbeat">Damen</Heading>
                         </Column>
                         <Column id="193235a" anim="fadeInRight">
                           <Widget id="ae1978f" type="image">
@@ -152,7 +152,7 @@ export default function HomePage() {
                               priority
                             />
                           </Widget>
-                          <Heading id="b8ada4a" extra="heartbeat-button">Herren</Heading>
+                          <Heading id="b8ada4a" extra="heartbeat-button fg-heartbeat">Herren</Heading>
                         </Column>
                       </Boxed>
 
@@ -180,14 +180,14 @@ export default function HomePage() {
                           <Widget id="ac4097a" type="image" anim="fadeInUp">
                             <Image src={IMAGES.george.src} width={IMAGES.george.width} height={IMAGES.george.height} className="attachment-full size-full wp-image-753" alt="" sizes="(max-width: 767px) 50vw, 275px" />
                           </Widget>
-                          <Heading id="04e3da6" extra="heartbeat-button" anim="fadeInUp">George</Heading>
+                          <Heading id="04e3da6" extra="heartbeat-button fg-heartbeat" anim="fadeInUp">George</Heading>
                           <Heading id="c0f5746" anim="fadeInUp">Friseurmeister &amp; Geschäftsführer</Heading>
                         </Column>
                         <Column id="af390ce">
                           <Widget id="1889524" type="image" anim="fadeInUp">
                             <Image src={IMAGES.maria.src} width={IMAGES.maria.width} height={IMAGES.maria.height} className="attachment-large size-large wp-image-1584" alt="" sizes="(max-width: 767px) 50vw, 275px" />
                           </Widget>
-                          <Heading id="85dae50" extra="heartbeat-button" anim="fadeInUp">Maria</Heading>
+                          <Heading id="85dae50" extra="heartbeat-button fg-heartbeat" anim="fadeInUp">Maria</Heading>
                           <Heading id="4023dde" anim="fadeInUp">Friseurin &amp; Make-up Artistin</Heading>
                         </Column>
                       </Boxed>

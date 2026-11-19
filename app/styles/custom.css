@@ -1,0 +1,229 @@
+/*
+ * Additions beyond the 1:1 rebuild of the original site.
+ */
+
+/* ---------- Heartbeat pulse (hero: Termin Buchen, Damen, Herren) ---------- */
+@keyframes fg-heartbeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.12); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.08); }
+  70%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.fg-heartbeat .elementor-heading-title,
+.fg-heartbeat .elementor-button,
+a.fg-heartbeat {
+  display: inline-block;
+  transform-origin: center;
+  animation: fg-heartbeat 1.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* pause while hovering so the button is easy to click */
+.fg-heartbeat .elementor-button:hover,
+a.fg-heartbeat:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fg-heartbeat .elementor-heading-title,
+  .fg-heartbeat .elementor-button,
+  a.fg-heartbeat {
+    animation: none;
+  }
+}
+
+/* ---------- Desktop header menu ---------- */
+.fg-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fg-menu > .menu-item {
+  position: relative;
+}
+.fg-menu a {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.6em 0.9em;
+  font-family: "EB Garamond", serif;
+  font-size: 1.15rem;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fg-menu > .menu-item > a {
+  border-bottom: 1px solid transparent;
+}
+.fg-menu > .menu-item > a:hover,
+.fg-menu > .menu-item > a:focus-visible,
+.fg-menu > .current-menu-item > a {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.fg-caret {
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.fg-menu .sub-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 13em;
+  margin: 0;
+  padding: 0.4em 0;
+  list-style: none;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 25px -7px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+}
+.fg-menu .menu-item-has-children:hover > .sub-menu,
+.fg-menu .menu-item-has-children:focus-within > .sub-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.fg-menu .menu-item-has-children:hover > a .fg-caret,
+.fg-menu .menu-item-has-children:focus-within > a .fg-caret {
+  transform: translateY(0.05em) rotate(225deg);
+}
+.fg-menu .sub-menu a {
+  padding: 0.5em 1.2em;
+  font-size: 1.05rem;
+}
+.fg-menu .sub-menu a:hover,
+.fg-menu .sub-menu a:focus-visible,
+.fg-menu .sub-menu .current-menu-item > a {
+  color: #000;
+  background: #fff;
+}
+
+/* ---------- Mobile drawer menu ---------- */
+.fg-mobile-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "EB Garamond", serif;
+}
+.fg-mobile-menu > .menu-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.fg-mobile-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.fg-mobile-menu a {
+  display: block;
+  flex: 1;
+  padding: 0.8em 0;
+  font-size: 1.25rem;
+  color: #fff;
+  text-decoration: none;
+}
+.fg-mobile-menu .current-menu-item > a,
+.fg-mobile-menu .current-menu-item > .fg-mobile-row > a {
+  text-decoration: underline;
+}
+.fg-sub-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3em;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+  cursor: pointer;
+}
+.fg-sub-toggle:hover,
+.fg-sub-toggle:focus {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.fg-sub-toggle.is-open .fg-caret {
+  transform: translateY(0.1em) rotate(225deg);
+}
+.fg-mobile-menu .sub-menu {
+  margin: 0 0 0.6em;
+  padding: 0 0 0 1em;
+  list-style: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+.fg-mobile-menu .sub-menu a {
+  padding: 0.5em 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ---------- Team (George / Maria) on mobile: photo → name → role, stacked ---------- */
+@media (max-width: 767px) {
+  .elementor-9 .elementor-element.elementor-element-7c91dd4 {
+    --flex-direction: column;
+    --flex-wrap: nowrap;
+    --align-items: center;
+    --row-gap: 48px;
+    --gap: 48px 0px;
+    --padding-top: 40px;
+    --padding-bottom: 48px;
+  }
+  .elementor-9 .elementor-element.elementor-element-a766730,
+  .elementor-9 .elementor-element.elementor-element-af390ce {
+    --width: 100%;
+    --align-items: center;
+    --row-gap: 0px;
+    --gap: 0px 0px;
+  }
+  /* booking button sits above George – give it room */
+  .elementor-9 .elementor-element.elementor-element-fef5848 > .elementor-widget-container {
+    margin: 0 0 32px;
+  }
+  .elementor-9 .elementor-element.elementor-element-ac4097a > .elementor-widget-container,
+  .elementor-9 .elementor-element.elementor-element-1889524 > .elementor-widget-container {
+    margin: 0 0 18px;
+    text-align: center;
+  }
+  .elementor-9 .elementor-element.elementor-element-ac4097a img,
+  .elementor-9 .elementor-element.elementor-element-1889524 img {
+    width: 62%;
+    max-width: 240px;
+  }
+  .elementor-9 .elementor-element.elementor-element-04e3da6 > .elementor-widget-container,
+  .elementor-9 .elementor-element.elementor-element-85dae50 > .elementor-widget-container {
+    margin: 0;
+    padding: 0;
+  }
+  .elementor-9 .elementor-element.elementor-element-04e3da6 .elementor-heading-title,
+  .elementor-9 .elementor-element.elementor-element-85dae50 .elementor-heading-title {
+    line-height: 1.2;
+  }
+  .elementor-9 .elementor-element.elementor-element-c0f5746 > .elementor-widget-container,
+  .elementor-9 .elementor-element.elementor-element-4023dde > .elementor-widget-container {
+    margin: 8px 16px 0;
+    padding: 0;
+  }
+  .elementor-9 .elementor-element.elementor-element-c0f5746 .elementor-heading-title,
+  .elementor-9 .elementor-element.elementor-element-4023dde .elementor-heading-title {
+    line-height: 1.35;
+  }
+}

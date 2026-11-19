@@ -4,6 +4,7 @@ import Image from "@/components/WpImage";
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BOOKING_URL, EMAIL, IMAGES, PHONE_HREF, SITE_NAME, SOCIAL } from "@/lib/site";
+import { DesktopNav, MobileNav } from "./SiteNav";
 import { KadenceEmail, KadenceFacebook, KadenceInstagram, KadenceMenu, KadencePhone, KadenceTikTok } from "./icons";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -118,7 +119,9 @@ export default function SiteHeader() {
                         <div className="site-header-main-section-left site-header-section site-header-section-left">
                           <div className="site-header-item site-header-focus-item site-header-item-main-navigation header-navigation-layout-stretch-false header-navigation-layout-fill-stretch-false" data-section="kadence_customizer_primary_navigation">
                             <nav id="site-navigation" className="main-navigation header-navigation hover-to-open nav--toggle-sub header-navigation-style-standard header-navigation-dropdown-animation-none" role="navigation" aria-label="Primär">
-                              <div className="primary-menu-container header-menu-container" />
+                              <div className="primary-menu-container header-menu-container">
+                                <DesktopNav />
+                              </div>
                             </nav>
                           </div>
                         </div>
@@ -126,7 +129,7 @@ export default function SiteHeader() {
                           <div className="site-header-item site-header-focus-item" data-section="kadence_customizer_header_button">
                             <div className="header-button-wrap">
                               <div className="header-button-inner-wrap">
-                                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="button header-button button-size-medium button-style-filled">
+                                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="button header-button button-size-medium button-style-filled fg-heartbeat">
                                   Termin Buchen
                                 </a>
                               </div>
@@ -223,9 +226,10 @@ export default function SiteHeader() {
           </div>
           <div className="drawer-content mobile-drawer-content content-align-left content-valign-top">
             <div className="site-header-item site-header-focus-item site-header-item-mobile-navigation mobile-navigation-layout-stretch-false" data-section="kadence_customizer_mobile_navigation">
-              {/* The original mobile menu is empty (no menu items are assigned in WordPress). */}
               <nav id="mobile-site-navigation" className="mobile-navigation drawer-navigation drawer-navigation-parent-toggle-true" role="navigation" aria-label="Primary Mobile Navigation">
-                <div className="mobile-menu-container drawer-menu-container" />
+                <div className="mobile-menu-container drawer-menu-container">
+                  <MobileNav onNavigate={closeDrawer} />
+                </div>
               </nav>
             </div>
           </div>
