@@ -1,0 +1,91 @@
+/*
+ * CSS for the Phase-2 pages (Elementor service pages, Damen, Kontakt, Preisliste).
+ *
+ * IMPORTANT – why the service pages look the way they do:
+ * On the original, the per-page Elementor stylesheets of the service pages
+ * (/wp-content/uploads/elementor/css/post-353.css, post-357.css, … and of /kontakt/
+ * and /preisliste/) return HTTP 404. The pages therefore render with Elementor's
+ * fallback behaviour only: containers have no --display (→ `display:inline`),
+ * the carousel uses Elementor defaults, and the EAEL accordion toggle icons
+ * (SVG without size) blow up to full width. This file reproduces exactly that
+ * rendering – it intentionally does NOT add the missing page styles.
+ * Only /damen/ has its page CSS (post-132.css); it is reproduced below.
+ */
+
+/* ---------- Elementor extras used by these pages ---------- */
+@media (max-width:767px){.elementor .elementor-hidden-mobile{display:none}}
+@keyframes fadeInDown{0%{opacity:0;transform:translate3d(0,-100%,0)}100%{opacity:1;transform:none}}
+.fadeInDown{animation-name:fadeInDown}
+
+/* e-swiper.min.css – arrows + stretch (verbatim) */
+.elementor-element .swiper .elementor-swiper-button,.elementor-element .swiper ~ .elementor-swiper-button{color:rgba(237,237,237,0.9);cursor:pointer;display:inline-flex;font-size:25px;position:absolute;top:50%;transform:translateY(-50%);z-index:1}
+.elementor-element .swiper .elementor-swiper-button svg,.elementor-element .swiper ~ .elementor-swiper-button svg{fill:rgba(237,237,237,0.9);height:1em;width:1em}
+.elementor-element .swiper .elementor-swiper-button-prev,.elementor-element .swiper ~ .elementor-swiper-button-prev{left:10px}
+.elementor-element .swiper .elementor-swiper-button-next,.elementor-element .swiper ~ .elementor-swiper-button-next{right:10px}
+.elementor-element .swiper .swiper-image-stretch .swiper-slide .swiper-slide-image{width:100%}
+
+/* swiper pagination (verbatim, used on /damen/braut/) */
+.swiper-pagination{position:absolute;text-align:center;transition:opacity 0.3s;transform:translate3d(0px,0px,0px);z-index:10}
+.swiper-horizontal>.swiper-pagination-bullets,.swiper-pagination-bullets.swiper-pagination-horizontal{bottom:10px;left:0px;width:100%}
+.swiper-pagination-bullet{width:var(--swiper-pagination-bullet-width,var(--swiper-pagination-bullet-size,8px));height:var(--swiper-pagination-bullet-height,var(--swiper-pagination-bullet-size,8px));display:inline-block;border-radius:50%;background:var(--swiper-pagination-bullet-inactive-color,#000);opacity:var(--swiper-pagination-bullet-inactive-opacity,.2)}
+.swiper-pagination-clickable .swiper-pagination-bullet{cursor:pointer}
+.swiper-pagination-bullet-active{opacity:var(--swiper-pagination-bullet-opacity,1);background:var(--swiper-pagination-color,var(--swiper-theme-color))}
+.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet{margin:0 var(--swiper-pagination-bullet-horizontal-gap,4px)}
+.elementor-element .swiper .swiper-pagination-bullets.swiper-pagination-horizontal{bottom:5px}
+button.swiper-pagination-bullet{border:none;margin:0;padding:0;box-shadow:none;appearance:none}
+
+/* ---------- Essential Addons – Advanced Accordion (eael-*.css, verbatim) ---------- */
+.clearfix::before,.clearfix::after{content:" ";display:table;clear:both}
+.elementor-widget-eael-adv-accordion .eael-accordion-content{position:relative}
+.eael-adv-accordion{width:auto;height:auto;transition:0.3s ease-in-out}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header{padding:15px;border:1px solid rgba(0,0,0,0.02);background-color:rgb(241,241,241);font-size:1rem;font-weight:600;line-height:1;transition:0.3s ease-in-out;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header>.eael-accordion-tab-title{flex-grow:1;margin:0px}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header>i,.eael-adv-accordion .eael-accordion-list .eael-accordion-header span{margin-right:10px}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header:hover{background-color:rgb(65,65,65)}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active{background-color:rgb(68,68,68)}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active .eael-advanced-accordion-icon-closed{display:none}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active .eael-advanced-accordion-icon-opened{display:block}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active .fa-toggle{transform:rotate(90deg);z-index:10;transition:0.3s ease-in-out}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header .fa-toggle{transform:rotate(0deg);z-index:10;transition:0.3s ease-in-out}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header .eael-advanced-accordion-icon-closed{display:block}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header .eael-advanced-accordion-icon-opened{display:none}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-content{display:none;border:1px solid rgb(238,238,238);padding:15px;box-sizing:border-box;font-size:1rem;line-height:1.7}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-content.fg-open{display:block}
+
+/* Only EB Garamond 400 loads on the original (see fixes.css): bold text on these pages renders in the sans-serif fallback. */
+.fg-elementor-page .elementor-heading-title,
+.fg-elementor-page .elementor-widget-text-editor strong,
+.fg-elementor-page .elementor-widget-text-editor b,
+.fg-elementor-page .eael-accordion-header,
+.fg-elementor-page .eael-accordion-content strong,
+.elementor-132 .elementor-button {
+  font-family: sans-serif;
+}
+
+/* ---------- /damen/ – post-132.css (verbatim values, selectors shortened to the elements on the page) ---------- */
+.elementor-132 .elementor-element.elementor-element-7cf6a59{--display:flex;--flex-direction:column;--container-widget-width:100%;--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap}
+.elementor-132 .elementor-element.elementor-element-7cf6a59:not(.elementor-motion-effects-element-type-background),
+.elementor-132 .elementor-element.elementor-element-bf14c2d:not(.elementor-motion-effects-element-type-background),
+.elementor-132 .elementor-element.elementor-element-a5b66c4:not(.elementor-motion-effects-element-type-background){background-color:#000000}
+.elementor-132 .elementor-widget-heading .elementor-heading-title{font-family:var( --e-global-typography-primary-font-family ),Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );color:var( --e-global-color-primary )}
+.elementor-132 .elementor-element.elementor-element-a68059b{text-align:center}
+.elementor-132 .elementor-element.elementor-element-a68059b .elementor-heading-title{color:#FFFFFF}
+.elementor-132 .elementor-element.elementor-element-bf14c2d,.elementor-132 .elementor-element.elementor-element-a5b66c4{--display:flex;--min-height:250px;--flex-direction:row;--container-widget-width:initial;--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--justify-content:space-between;--gap:10px 10px;--row-gap:10px;--column-gap:10px;--background-transition:0.3s}
+.elementor-132 .fg-damen-card{--display:flex;--flex-direction:column;--container-widget-width:calc( ( 1 - var( --container-widget-flex-grow ) ) * 100% );--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;--justify-content:center;--align-items:center;--overlay-opacity:0.5}
+.elementor-132 .fg-damen-card:not(.elementor-motion-effects-element-type-background){background-color:#000000;background-position:center left;background-repeat:no-repeat;background-size:cover}
+.elementor-132 .fg-damen-card::before{background-color:#000000;--background-overlay:''}
+.elementor-132 .elementor-element-ed9d0be:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/AdobeStock_393135228-scaled.webp")}
+.elementor-132 .elementor-element-3a72dd9:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/AdobeStock_275037659-scaled.webp")}
+.elementor-132 .elementor-element-baddf96:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/349560093_278427508077949_685404300019429156_n.webp")}
+.elementor-132 .elementor-element-a7ce109:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/395397359_18315476299104052_763478245978442379_n.webp")}
+.elementor-132 .elementor-element-c5f976d:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/03/AdobeStock_527413040-scaled.jpeg")}
+.elementor-132 .elementor-element-39f94ff:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/03/AdobeStock_288626101-scaled.jpeg")}
+.elementor-132 .elementor-element-689e3f0:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/AdobeStock_120423799-scaled.jpeg")}
+.elementor-132 .elementor-element-69d015d:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/AdobeStock_229772074-scaled.jpeg")}
+.elementor-132 .elementor-element-2f26af4:not(.elementor-motion-effects-element-type-background){background-image:url("/wp-content/uploads/2025/02/AdobeStock_430872029-scaled.jpeg")}
+.elementor-132 .elementor-widget-button .elementor-button{background-color:var( --e-global-color-accent );font-family:var( --e-global-typography-accent-font-family ),Sans-serif;font-weight:var( --e-global-typography-accent-font-weight )}
+.elementor-132 .fg-damen-card .elementor-button{background-color:#000000;fill:#FFFFFF;color:#FFFFFF}
+.elementor-132 .fg-damen-card .elementor-button:hover,.elementor-132 .fg-damen-card .elementor-button:focus{background-color:#FFFFFF;color:#000000}
+.elementor-132 .fg-damen-card .elementor-button:hover svg,.elementor-132 .fg-damen-card .elementor-button:focus svg{fill:#000000}
+@media(min-width:768px){.elementor-132 .fg-damen-card{--width:25%}}
+.elementor-132 .elementor-button{font-family:sans-serif}

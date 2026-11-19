@@ -1,0 +1,67 @@
+/*
+ * Rendering-fidelity rules.
+ *
+ * 1) WEB FONTS AS THEY ACTUALLY RENDER ON THE ORIGINAL
+ * On friseur-george.de only "EB Garamond" 400 (normal) loads successfully. The other
+ * faces Elementor requests (EB Garamond 500/600, Cormorant Garamond 600, Roboto) fail
+ * to load in the browser (they are requested cross-origin from www.friseur-george.de),
+ * so Chrome falls back to the next family in the stack: generic sans-serif.
+ * Inspected computed styles + screenshots confirm bold sans-serif headings.
+ * To stay visually 1:1 we load only EB Garamond 400 and point the failing selectors
+ * straight at that sans-serif fallback. To "repair" the design later, delete this block
+ * and load the intended fonts instead.
+ */
+.elementor-9 .elementor-element.elementor-element-308e9d9 .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-04e3da6 .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-85dae50 .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-84975f3 .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-ce1759c .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-0c6903c .elementor-heading-title,
+.elementor-9 .elementor-element.elementor-element-24ec449 .elementor-button,
+.elementor-9 .elementor-element.elementor-element-fef5848 .elementor-button,
+.elementor-9 .elementor-element.elementor-element-6a282ad,
+.elementor-9 .elementor-element.elementor-element-d128877,
+.cmplz-cookiebanner .cmplz-title,
+.cmplz-cookiebanner .cmplz-category-title,
+.cmplz-cookiebanner .cmplz-always-active,
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
+  font-family: sans-serif;
+}
+
+/*
+ * 2) ELEMENTOR LIGHTBOX [R]
+ * Rebuilt from measurements of the live lightbox (overlay rgba(0,0,0,.8), 70px image inset,
+ * 20px/15px counter, 30x30 close button, full-height 15%-wide prev/next zones,
+ * UI colour hsla(0,0%,93%,.9)).
+ */
+:where(.elementor-lightbox){--lightbox-ui-color:hsla(0,0%,93%,.9);--lightbox-ui-color-hover:#fff;--lightbox-text-color:var(--lightbox-ui-color);--lightbox-header-icons-size:20px;--lightbox-navigation-icons-size:25px}
+.elementor-lightbox{position:fixed;inset:0;z-index:9999;background-color:rgba(0,0,0,.8);user-select:none;-webkit-user-select:none;animation:fg-lightbox-in .3s ease}
+@keyframes fg-lightbox-in{from{opacity:0}to{opacity:1}}
+.elementor-lightbox .dialog-widget-content{position:absolute;inset:0;width:100%;height:100%;background:none}
+.elementor-lightbox .elementor-slideshow__header{position:absolute;top:0;left:0;width:100%;display:flex;align-items:center;justify-content:flex-start;padding:15px 52px 15px 20px;font-size:var(--lightbox-header-icons-size);color:var(--lightbox-ui-color);z-index:10;box-sizing:border-box}
+.elementor-lightbox .elementor-slideshow__counter{font-size:15px;line-height:1.5;color:var(--lightbox-ui-color);white-space:nowrap}
+.elementor-lightbox .dialog-lightbox-close-button{position:absolute;top:13px;right:15px;width:30px;height:30px;padding:5px;display:flex;align-items:center;justify-content:center;background:none;border:0;border-radius:0;box-shadow:none;color:var(--lightbox-ui-color);cursor:pointer;z-index:2;font-size:var(--lightbox-header-icons-size)}
+.elementor-lightbox .dialog-lightbox-close-button:hover,.elementor-lightbox .dialog-lightbox-close-button:focus{color:var(--lightbox-ui-color-hover);background:none;box-shadow:none}
+.elementor-lightbox .dialog-lightbox-close-button svg{width:1em;height:1em;fill:currentColor}
+.elementor-lightbox .elementor-lightbox-stage{position:absolute;inset:70px;display:flex;align-items:center;justify-content:center}
+.elementor-lightbox .elementor-lightbox-image{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;box-shadow:0 0 30px rgba(0,0,0,.3),0 0 8px -5px rgba(0,0,0,.3);border-radius:2px;display:block}
+.elementor-lightbox .elementor-swiper-button{position:absolute;top:0;bottom:0;width:15%;display:flex;align-items:center;cursor:pointer;color:var(--lightbox-ui-color);font-size:var(--lightbox-navigation-icons-size);background:none;border:0;border-radius:0;box-shadow:none;padding:0;z-index:1}
+.elementor-lightbox .elementor-swiper-button:hover,.elementor-lightbox .elementor-swiper-button:focus{color:var(--lightbox-ui-color-hover);background:none;box-shadow:none}
+.elementor-lightbox .elementor-swiper-button-prev{left:0;justify-content:flex-start;padding-left:20px}
+.elementor-lightbox .elementor-swiper-button-next{right:0;justify-content:flex-end;padding-right:20px}
+.elementor-lightbox .elementor-swiper-button svg{width:1em;height:1em;fill:currentColor}
+@media (max-width:767px){.elementor-lightbox .elementor-lightbox-stage{inset:70px 0}.elementor-lightbox .elementor-swiper-button{width:20%}}
+
+/* Carousel image links behave like Elementor's (zoom-in cursor while the lightbox is available). */
+.elementor-widget-image-carousel .swiper-slide a{cursor:pointer}
+
+/* 3) Complianz cookie policy document (legal page) – minimal styling for the collapsible service list [R] */
+.cmplz-document details.cmplz-dropdown{margin-bottom:10px;background:var(--global-palette7)}
+.cmplz-document details.cmplz-dropdown summary{cursor:pointer;padding:10px 15px;display:flex;justify-content:space-between;gap:1em;font-weight:600;list-style:none}
+.cmplz-document details.cmplz-dropdown summary::-webkit-details-marker{display:none}
+.cmplz-document details.cmplz-dropdown summary h3{margin:0;font-size:1em}
+.cmplz-document details.cmplz-dropdown summary p{margin:0;font-weight:400}
+.cmplz-document details.cmplz-dropdown>div{padding:0 15px 10px}
+.cmplz-document .cookies-per-purpose{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 12px;margin-top:8px}
+.cmplz-document .cookies-per-purpose .purpose{grid-column:1 / -1;font-weight:600;margin-top:6px}
+.cmplz-document .cmplz-subtitle{font-weight:600}

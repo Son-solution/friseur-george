@@ -1,0 +1,15 @@
+/* Only EB Garamond 400 – the single web-font face that loads on the original (see fixes.css). */
+@import "@fontsource/eb-garamond/400.css";
+
+/* Tailwind v4 without Preflight: the original theme CSS below supplies the base styles,
+   so the Tailwind reset must not run (it would change margins, line-heights and images). */
+@layer theme, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@import "./kadence.css";
+@import "./elementor.css";
+@import "./page-home.css";
+@import "./pages.css";
+@import "./complianz.css";
+@import "./fixes.css";
