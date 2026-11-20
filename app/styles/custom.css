@@ -315,3 +315,34 @@ a.fg-heartbeat:hover {
 .eael-adv-accordion .eael-accordion-list .eael-accordion-header {
   line-height: 1.35;
 }
+
+/* ---------- FAQ accordion colours: light question, black/white when open ---------- */
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header {
+  color: #000;
+  background-color: #f1f1f1;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header:hover {
+  color: #fff;
+  background-color: #222;
+}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active,
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header.active:hover {
+  color: #fff;
+  background-color: #000;
+}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+/* ---------- Service page title centred ---------- */
+.fg-service-title,
+.fg-service-title > .e-con-inner {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.fg-service-title .elementor-widget-heading {
+  text-align: center;
+}

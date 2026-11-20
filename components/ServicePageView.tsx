@@ -24,7 +24,7 @@ export default function ServicePageView({ page }: { page: ServicePage }) {
   const dots = page.navigation === "both";
   return (
     <ElementorPage pageId={page.pageId}>
-      <Boxed id={c1}>
+      <Boxed id={c1} className="fg-service-title">
         <Heading id={heading} anim={page.headingAnim}>
           {page.title}
         </Heading>
