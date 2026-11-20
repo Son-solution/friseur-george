@@ -302,3 +302,16 @@ a.fg-heartbeat:hover {
 @media (min-width: 768px) {
   .fg-herren .fg-herren-card { --width: 32%; }
 }
+
+/* ---------- FAQ accordion arrow: fixed size, same colour as the question text ---------- */
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header .fa-toggle {
+  flex: 0 0 auto;
+  width: 0.7em;
+  height: 1.1em;
+  margin-left: 12px;
+  fill: currentColor;
+  transform-origin: center;
+}
+.eael-adv-accordion .eael-accordion-list .eael-accordion-header {
+  line-height: 1.35;
+}

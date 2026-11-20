@@ -10,8 +10,8 @@ const ANGLE_RIGHT =
  * Essential Addons "Advanced Accordion" (type: accordion, toggle speed 300ms).
  * The first item is open by default ("active-default"); opening an item closes the others,
  * with a 300ms height slide like EAEL's jQuery slideUp/slideDown.
- * Markup is kept identical, including the unsized toggle SVG that renders very large on the
- * original because the page stylesheet is missing (see app/styles/pages.css).
+ * Markup is kept identical. The toggle SVG is unsized on the original (very large, because the
+ * page stylesheet is missing); app/styles/custom.css gives it a fixed size.
  */
 export default function EaelAccordion({ id, faqs }: { id: string; faqs: Faq[] }) {
   const [open, setOpen] = useState<number | null>(faqs.findIndex((f) => f.active));
