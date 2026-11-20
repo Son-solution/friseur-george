@@ -227,3 +227,18 @@ a.fg-heartbeat:hover {
     line-height: 1.35;
   }
 }
+
+/* ---------- Hero Damen / Herren headings as links ---------- */
+.elementor-9 .elementor-element-27f0c03 .elementor-heading-title a,
+.elementor-9 .elementor-element-b8ada4a .elementor-heading-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.elementor-9 .elementor-element-27f0c03 .elementor-heading-title a:hover,
+.elementor-9 .elementor-element-b8ada4a .elementor-heading-title a:hover,
+.elementor-9 .elementor-element-27f0c03 .elementor-heading-title a:focus-visible,
+.elementor-9 .elementor-element-b8ada4a .elementor-heading-title a:focus-visible {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}

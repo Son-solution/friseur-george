@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "@/components/WpImage";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import ElementorAnimations from "@/components/ElementorAnimations";
 import SalonCarousel from "@/components/SalonCarousel";
@@ -66,10 +67,12 @@ function Widget({ id, type, extra = "", anim, children }: { id: string; type: st
   );
 }
 
-function Heading({ id, extra, anim, children }: { id: string; extra?: string; anim?: string; children: ReactNode }) {
+function Heading({ id, extra, anim, href, children }: { id: string; extra?: string; anim?: string; href?: string; children: ReactNode }) {
   return (
     <Widget id={id} type="heading" extra={extra} anim={anim}>
-      <h2 className="elementor-heading-title elementor-size-default">{children}</h2>
+      <h2 className="elementor-heading-title elementor-size-default">
+        {href ? <Link href={href}>{children}</Link> : children}
+      </h2>
     </Widget>
   );
 }
@@ -138,7 +141,7 @@ export default function HomePage() {
                               priority
                             />
                           </Widget>
-                          <Heading id="27f0c03" extra="heartbeat-button fg-heartbeat">Damen</Heading>
+                          <Heading id="27f0c03" extra="heartbeat-button fg-heartbeat" href="/damen/">Damen</Heading>
                         </Column>
                         <Column id="193235a" anim="fadeInRight">
                           <Widget id="ae1978f" type="image">
@@ -152,7 +155,7 @@ export default function HomePage() {
                               priority
                             />
                           </Widget>
-                          <Heading id="b8ada4a" extra="heartbeat-button fg-heartbeat">Herren</Heading>
+                          <Heading id="b8ada4a" extra="heartbeat-button fg-heartbeat" href="/herren/">Herren</Heading>
                         </Column>
                       </Boxed>
 
