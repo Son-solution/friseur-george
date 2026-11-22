@@ -7,7 +7,7 @@ import SalonCarousel from "@/components/SalonCarousel";
 import GoogleReviews from "@/components/GoogleReviews";
 import OpeningHours from "@/components/OpeningHours";
 import HeroSlider from "@/components/HeroSlider";
-import { FabFacebook, FabInstagram, FabTikTok, FasEnvelope, FasMapMarker } from "@/components/icons";
+import { FabFacebook, FabInstagram, FabTikTok, FasEnvelope, FasMapMarker, FasPhone } from "@/components/icons";
 import { ADDRESS, BOOKING_URL, EMAIL, IMAGES, MAPS_EMBED_URL, MAPS_PLACE_URL, PHONE_HREF, SITE_NAME, SITE_URL, SOCIAL } from "@/lib/site";
 
 const TITLE = "Friseur & Kosmetik GeorgeFriseur & Kosmetik George Wiesbaden"; // original <title>, verbatim
@@ -243,10 +243,10 @@ export default function HomePage() {
                               </a>
                             </span>
                             <span className="elementor-grid-item" role="listitem">
-                              {/* original href was empty and its icon font never loaded (renders as an empty square) */}
+                              {/* original href was empty and its icon font never loaded – now an inline SVG phone icon */}
                               <a className="elementor-icon elementor-social-icon elementor-social-icon-icon-phone-handset elementor-repeater-item-938aa4e" href={PHONE_HREF}>
                                 <span className="elementor-screen-only">Icon-phone-handset</span>
-                                <i className="icon icon-phone-handset" />
+                                <FasPhone />
                               </a>
                             </span>
                           </div>

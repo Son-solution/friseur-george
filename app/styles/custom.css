@@ -688,33 +688,45 @@ body,
 .swiper-fade .swiper-slide { pointer-events: none; transition-property: opacity; }
 .swiper-fade .swiper-slide-active { pointer-events: auto; }
 
-/* ---------- Service overview (/damen/): names stacked left, photo right ---------- */
+/* ---------- Service overview (/damen/, /herren/): names stacked left, photo right ---------- */
 /* full-width black band (the page itself is white; Elementor sections paint their own black) */
 .fg-service-split {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   margin: 0;
   padding: 10px 20px 60px;
   align-items: center;
   background: #000;
   color: #fff;
 }
-/* mobile: photo first, list below */
-.fg-service-photo { order: -1; }
 @media (min-width: 768px) {
   .fg-service-split {
-    grid-template-columns: 1fr 1fr;
     gap: 56px;
     /* content capped at 1140px, black band stays full width */
     padding: 20px max(30px, calc((100% - 1140px) / 2)) 80px;
   }
-  .fg-service-photo { order: 0; }
 }
 .fg-service-photo img {
   display: block;
   width: 100%;
   height: auto;
+}
+/* mobile: photo column stretches to the list's height (cropped at the sides, face centred) */
+@media (max-width: 767px) {
+  .fg-service-split { align-items: stretch; }
+  .fg-service-list { align-self: center; }
+  .fg-service-photo { min-height: 100%; }
+  .fg-service-photo img {
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .fg-service-split .fg-service-list a {
+    font-size: 19px;
+    padding: 0.55em 0.3em;
+  }
 }
 .fg-service-list ul {
   list-style: none;
@@ -755,4 +767,20 @@ body,
 .fg-service-list a:focus-visible .fg-service-arrow {
   opacity: 1;
   transform: translateX(4px);
+}
+
+/* Öffnungszeiten list: cancel Kadence's `.single-content ul { padding-left: 2em }`,
+   which shifted the rows right of the top border */
+.single-content ul.fg-hours {
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* "Unser Team" text: justified, so both edges line up exactly (last line centred).
+   German hyphenation keeps word gaps even on narrow phones. */
+.elementor-9 .elementor-element.elementor-element-6a282ad p {
+  text-align: justify;
+  text-align-last: center;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
