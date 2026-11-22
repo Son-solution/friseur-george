@@ -114,7 +114,7 @@ function Column({ id, anim, children }: { id: string; anim?: string; children: R
  * "split": the previous layout (two images side by side, word under each image), kept
  * unchanged in HeroSplit below. Change this one value to switch back.
  */
-const HERO_STYLE: "slider" | "split" = "slider";
+const HERO_STYLE: "slider" | "split" = "split";
 
 /** Previous hero: Damen | Herren side by side (saved 2026-11-22). */
 function HeroSplit() {
