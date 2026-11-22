@@ -48,10 +48,10 @@ export const IMAGES = {
   maria: { src: `${U}/2025/04/WhatsApp-Image-2025-04-04-at-21.44.48.jpeg`, width: 899, height: 956 },
 } as const;
 
-/** Salon carousel – real slide order as rendered by Swiper on the original (loop duplicates removed). */
+/** Salon carousel – original Swiper order, except slide 3 (styling chair + mirror) moved to the front at the client's request. */
 export const SALON_SLIDES = [
-  { n: 5, file: "WhatsApp-Image-2025-04-02-at-18.42.07-5-scaled-e1743613752296.jpeg", width: 1195, height: 1408 },
   { n: 3, file: "WhatsApp-Image-2025-04-02-at-18.42.07-3-scaled-e1743613771834.jpeg", width: 1195, height: 1434 },
+  { n: 5, file: "WhatsApp-Image-2025-04-02-at-18.42.07-5-scaled-e1743613752296.jpeg", width: 1195, height: 1408 },
   { n: 1, file: "WhatsApp-Image-2025-04-02-at-18.42.07-1-scaled-e1743613791392.jpeg", width: 1195, height: 1438 },
   { n: 7, file: "WhatsApp-Image-2025-04-02-at-18.42.07-7-scaled-e1743795510274.jpeg", width: 1920, height: 2304 },
   { n: 6, file: "WhatsApp-Image-2025-04-02-at-18.42.07-6-scaled-e1743795539103.jpeg", width: 1034, height: 1258 },
@@ -69,3 +69,14 @@ export const ICONS = {
   apple: `${U}/2025/02/cropped-symbul-schwarz-180x180.png`,
   tile: `${U}/2025/02/cropped-symbul-schwarz-270x270.png`,
 } as const;
+
+/** Opening hours, Monday first. `null` = closed. (Saturday as on the home page; /kontakt/ still shows 17:00.) */
+export const OPENING_HOURS: { day: string; hours: string | null }[] = [
+  { day: "Montag", hours: null },
+  { day: "Dienstag", hours: "09:00 – 19:00" },
+  { day: "Mittwoch", hours: "09:00 – 19:00" },
+  { day: "Donnerstag", hours: "09:00 – 19:00" },
+  { day: "Freitag", hours: "09:00 – 19:00" },
+  { day: "Samstag", hours: "08:00 – 16:00" },
+  { day: "Sonntag", hours: null },
+];

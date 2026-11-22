@@ -91,7 +91,7 @@ export const SERVICES: ServicePage[] = [
     path: "/damen/extentions/",
     pageId: 361,
     title: "Extension",
-    metaTitle: "Extentions - Friseur & Kosmetik George",
+    metaTitle: "Extensions - Friseur & Kosmetik George",
     ids: ["1d861fc", "2ce9e02", "3c66211", "58d99ab", "7fd9465", "09f3891", "c4aab2a"],
     headingAnim: "fadeInDown",
     slides: [
@@ -211,7 +211,7 @@ export const SERVICES: ServicePage[] = [
     path: "/damen/haar-protin/",
     pageId: 363,
     title: "Haar Proteine",
-    metaTitle: "Haar Protin - Friseur & Kosmetik George",
+    metaTitle: "Haar Protein - Friseur & Kosmetik George",
     ids: ["0213fab", "7531371", "dce5928", "c6aa471", "bdda7c4", "c95d637", "8b59b2d"],
     headingAnim: "fadeInDown",
     slides: [

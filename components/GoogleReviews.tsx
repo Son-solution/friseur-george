@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import "../app/styles/trustindex.css";
+import { MAPS_PLACE_URL } from "@/lib/site";
 
 /**
- * Static rebuild of the Trustindex "Google reviews" widget on the original home page
- * (layout 33 "list", set "dark-background", plugin 13.3.2).
- * The markup and CSS are the original's. The CDN assets and avatars are served locally,
- * so cdn.trustindex.io/loader.js is no longer needed.
- * Loader behaviour reproduced here: relative dates, "Weiterlesen"/"Ausblenden", and
- * 5 reviews per page with a "Mehr laden" button.
+ * Google reviews: a summary card (rating, stars, link to the Google listing) followed by
+ * one card per review (quote, initial avatar, name, stars). Long reviews are clamped with
+ * "Weiterlesen"; REVIEWS_PER_PAGE are shown at first, then "Mehr laden".
+ * Styles: .fg-reviews in app/styles/custom.css.
  */
 
 type Review = { time: number; name: string; avatar: string; text: string };
+
+/** Overall Google rating shown in the summary card. */
+const RATING = "5,0";
+/** Total number of Google reviews; null hides the number ("Bewertungen auf Google"). */
+const REVIEW_COUNT: number | null = null;
 
 // Review data as printed in the original <template id="trustindex-google-widget-html"> (all 5 stars).
 const REVIEWS: Review[] = [
@@ -60,21 +63,22 @@ const REVIEWS: Review[] = [
   },
 ];
 
-const ROWS_PER_PAGE = 5; // data-load-more-rows="5"
+const REVIEWS_PER_PAGE = 4;
 
-/** data-time-locale="vor %d %s|Heute|Tag|Tagen|Woche|Wochen|Monat|Monaten|Jahr|Jahren" */
-function relativeDate(time: number, now: number): string {
-  const days = Math.floor((now / 1000 - time) / 86400);
-  const fmt = (n: number, one: string, many: string) => `vor ${n} ${n === 1 ? one : many}`;
-  if (days < 1) return "Heute";
-  if (days < 7) return fmt(days, "Tag", "Tagen");
-  if (days < 30) return fmt(Math.round(days / 7), "Woche", "Wochen");
-  if (days < 365) return fmt(Math.max(1, Math.round(days / 30)), "Monat", "Monaten");
-  return fmt(Math.round(days / 365), "Jahr", "Jahren");
+function Stars({ size = 18 }: { size?: number }) {
+  return (
+    <span className="fg-stars" role="img" aria-label="5 von 5 Sternen">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <svg key={i} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2.5l2.94 6.1 6.56.9-4.78 4.6 1.17 6.6L12 17.6l-5.89 3.1 1.17-6.6L2.5 9.5l6.56-.9z" />
+        </svg>
+      ))}
+    </span>
+  );
 }
 
-function ReviewItem({ review, now }: { review: Review; now: number | null }) {
-  const textRef = useRef<HTMLDivElement>(null);
+function ReviewCard({ review }: { review: Review }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
   const [overflowing, setOverflowing] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -89,82 +93,66 @@ function ReviewItem({ review, now }: { review: Review; now: number | null }) {
     return () => window.removeEventListener("resize", check);
   }, [open]);
 
-  const expandedStyle = open && textRef.current
-    ? { maxHeight: `${textRef.current.scrollHeight}px`, WebkitLineClamp: "unset" as const }
-    : undefined;
-
   return (
-    <div data-empty="0" data-time={review.time} className="ti-review-item source-Google ti-image-layout-thumbnail">
-      <div className="ti-inner">
-        <div className="ti-review-header">
-          <div className="ti-platform-icon ti-with-tooltip">
-            <span className="ti-tooltip">Gepostet auf Google</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/trustindex/assets/platform/Google/icon.svg" alt="Google" width={20} height={20} loading="lazy" />
-          </div>
-          <div className="ti-profile-img">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={review.avatar} alt={`${review.name} profile picture`} loading="lazy" />
-          </div>
-          <div className="ti-profile-details">
-            <div className="ti-name">{review.name}</div>
-            <div className="ti-date">{now ? relativeDate(review.time, now) : ""}</div>
-          </div>
-        </div>
-        <span className="ti-stars">
-          {[1, 2, 3, 4, 5].map((n) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={n} className="ti-star" src="/trustindex/assets/platform/Google/star/f.svg" alt={`Google star ${n}`} width={17} height={17} loading="lazy" />
+    <figure className="fg-review-card">
+      <span className="fg-review-quote" aria-hidden="true">&rdquo;</span>
+      <blockquote className="fg-review-text">
+        <p ref={textRef} className={open ? "is-open" : undefined}>
+          {review.text.split("\n").map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
           ))}
-          <span className="ti-verified-review ti-verified-platform">
-            <span className="ti-verified-tooltip">Trustindex überprüft, ob die Originalquelle der Bewertung Google ist.</span>
+        </p>
+        {(overflowing || open) && (
+          <button type="button" className="fg-review-more" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+            {open ? "Ausblenden" : "Weiterlesen"}
+          </button>
+        )}
+      </blockquote>
+      <figcaption className="fg-review-author">
+        <span className="fg-review-avatar" aria-hidden="true">
+          {review.name.trim().charAt(0).toUpperCase()}
+        </span>
+        <span className="fg-review-meta">
+          <span className="fg-review-name">{review.name}</span>
+          <span className="fg-review-source">
+            <Stars size={15} />
+            <span>Google-Rezension</span>
           </span>
         </span>
-        <div className="ti-review-content">
-          <div ref={textRef} className="ti-review-text-container ti-inner" style={expandedStyle}>
-            {review.text.split("\n").map((line, i) => (
-              <span key={i}>
-                {i > 0 && <br />}
-                {line}
-              </span>
-            ))}
-          </div>
-          <span className="ti-read-more">
-            {(overflowing || open) && (
-              <span role="button" tabIndex={0} onClick={() => setOpen((o) => !o)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setOpen((o) => !o)}>
-                {open ? "Ausblenden" : "Weiterlesen"}
-              </span>
-            )}
-          </span>
-        </div>
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   );
 }
 
 export default function GoogleReviews() {
-  const [now, setNow] = useState<number | null>(null); // set after mount, so server and client HTML match
-  const [visible, setVisible] = useState(ROWS_PER_PAGE);
-  useEffect(() => setNow(Date.now()), []);
+  const [visible, setVisible] = useState(REVIEWS_PER_PAGE);
 
   return (
-    <div className="ti-widget ti-goog ti-review-text-mode-readmore ti-text-align-left" data-no-translation="true" data-layout-id="33" data-layout-category="list" data-set-id="dark-background" data-language="de">
-      <div className="ti-widget-container">
-        <div className="ti-reviews-container">
-          <div className="ti-reviews-container-wrapper">
-            {REVIEWS.slice(0, visible).map((r) => (
-              <ReviewItem key={r.name} review={r} now={now} />
-            ))}
-          </div>
-          <div className="ti-load-more-reviews-container">
-            {visible < REVIEWS.length && (
-              <div className="ti-load-more-reviews-button" role="button" tabIndex={0} onClick={() => setVisible((v) => v + ROWS_PER_PAGE)} onKeyDown={(e) => e.key === "Enter" && setVisible((v) => v + ROWS_PER_PAGE)}>
-                Mehr laden
-              </div>
-            )}
-          </div>
-        </div>
+    <div className="fg-reviews">
+      <div className="fg-review-summary">
+        <div className="fg-review-score">{RATING}</div>
+        <Stars size={26} />
+        <p className="fg-review-count">{REVIEW_COUNT ? `aus ${REVIEW_COUNT} Bewertungen auf Google` : "Bewertungen auf Google"}</p>
+        <a className="fg-review-all" href={MAPS_PLACE_URL} target="_blank" rel="noopener noreferrer">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/trustindex/assets/platform/Google/icon.svg" alt="" width={18} height={18} />
+          <span>Alle Bewertungen ansehen</span>
+          <span aria-hidden="true">↗</span>
+        </a>
       </div>
+
+      {REVIEWS.slice(0, visible).map((r) => (
+        <ReviewCard key={r.name} review={r} />
+      ))}
+
+      {visible < REVIEWS.length && (
+        <button type="button" className="fg-review-load" onClick={() => setVisible((v) => v + REVIEWS_PER_PAGE)}>
+          Mehr laden
+        </button>
+      )}
     </div>
   );
 }

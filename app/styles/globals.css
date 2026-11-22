@@ -1,5 +1,6 @@
-/* Only EB Garamond 400 – the single web-font face that loads on the original (see fixes.css). */
+/* EB Garamond 400 (body, as on the original) + 600 for the main headings, matching the logo lettering (see custom.css). */
 @import "@fontsource/eb-garamond/400.css";
+@import "@fontsource/eb-garamond/600.css";
 
 /* Tailwind v4 without Preflight: the original theme CSS below supplies the base styles,
    so the Tailwind reset must not run (it would change margins, line-heights and images). */

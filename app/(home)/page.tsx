@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 import ElementorAnimations from "@/components/ElementorAnimations";
 import SalonCarousel from "@/components/SalonCarousel";
 import GoogleReviews from "@/components/GoogleReviews";
+import OpeningHours from "@/components/OpeningHours";
+import HeroSlider from "@/components/HeroSlider";
 import { FabFacebook, FabInstagram, FabTikTok, FasEnvelope, FasMapMarker } from "@/components/icons";
 import { ADDRESS, BOOKING_URL, EMAIL, IMAGES, MAPS_EMBED_URL, MAPS_PLACE_URL, PHONE_HREF, SITE_NAME, SITE_URL, SOCIAL } from "@/lib/site";
 
@@ -107,8 +109,48 @@ function Column({ id, anim, children }: { id: string; anim?: string; children: R
   );
 }
 
-const nb = " ";
-const pad5 = `${nb} ${nb} ${nb} ${nb} ${nb} `;
+/**
+ * HERO SWITCH – "slider": Damen/Herren as one auto-playing slider (components/HeroSlider.tsx).
+ * "split": the previous layout (two images side by side, word under each image), kept
+ * unchanged in HeroSplit below. Change this one value to switch back.
+ */
+const HERO_STYLE: "slider" | "split" = "slider";
+
+/** Previous hero: Damen | Herren side by side (saved 2026-11-22). */
+function HeroSplit() {
+  return (
+      <Boxed id="c3fff5b">
+        <Column id="64ae671" anim="fadeInLeft">
+          <Widget id="564cab5" type="image">
+            <Image
+              src={IMAGES.heroDamen.src}
+              width={IMAGES.heroDamen.width}
+              height={IMAGES.heroDamen.height}
+              className="attachment-large size-large wp-image-1074"
+              alt=""
+              sizes="(max-width: 1024px) 100vw, 656px"
+              priority
+            />
+          </Widget>
+          <Heading id="27f0c03" extra="heartbeat-button fg-heartbeat" href="/damen/">Damen</Heading>
+        </Column>
+        <Column id="193235a" anim="fadeInRight">
+          <Widget id="ae1978f" type="image">
+            <Image
+              src={IMAGES.heroHerren.src}
+              width={IMAGES.heroHerren.width}
+              height={IMAGES.heroHerren.height}
+              title={IMAGES.heroHerren.alt}
+              alt={IMAGES.heroHerren.alt}
+              sizes="(max-width: 1024px) 100vw, 656px"
+              priority
+            />
+          </Widget>
+          <Heading id="b8ada4a" extra="heartbeat-button fg-heartbeat" href="/herren/">Herren</Heading>
+        </Column>
+      </Boxed>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -127,37 +169,7 @@ export default function HomePage() {
                         <BookingButton id="24ec449" pulse />
                       </Boxed>
 
-                      {/* Damen / Herren */}
-                      <Boxed id="c3fff5b">
-                        <Column id="64ae671" anim="fadeInLeft">
-                          <Widget id="564cab5" type="image">
-                            <Image
-                              src={IMAGES.heroDamen.src}
-                              width={IMAGES.heroDamen.width}
-                              height={IMAGES.heroDamen.height}
-                              className="attachment-large size-large wp-image-1074"
-                              alt=""
-                              sizes="(max-width: 1024px) 100vw, 656px"
-                              priority
-                            />
-                          </Widget>
-                          <Heading id="27f0c03" extra="heartbeat-button fg-heartbeat" href="/damen/">Damen</Heading>
-                        </Column>
-                        <Column id="193235a" anim="fadeInRight">
-                          <Widget id="ae1978f" type="image">
-                            <Image
-                              src={IMAGES.heroHerren.src}
-                              width={IMAGES.heroHerren.width}
-                              height={IMAGES.heroHerren.height}
-                              title={IMAGES.heroHerren.alt}
-                              alt={IMAGES.heroHerren.alt}
-                              sizes="(max-width: 1024px) 100vw, 656px"
-                              priority
-                            />
-                          </Widget>
-                          <Heading id="b8ada4a" extra="heartbeat-button fg-heartbeat" href="/herren/">Herren</Heading>
-                        </Column>
-                      </Boxed>
+                      {HERO_STYLE === "slider" ? <HeroSlider /> : <HeroSplit />}
 
                       {/* Salon carousel + intro text */}
                       <Boxed id="6d396b6">
@@ -241,19 +253,7 @@ export default function HomePage() {
                         </Widget>
                         <Heading id="ce1759c">Öffnungszeiten</Heading>
                         <Widget id="d128877" type="text-editor">
-                          <p>
-                            <strong>{`${pad5}Montag`}</strong>
-                            {`${nb} ${nb}Geschlossen`}
-                            <br />
-                            <strong>{`${pad5}Dienstag – Freitag`}</strong>
-                            {`${nb} ${nb} 09:00 – 19:00`}
-                            <br />
-                            <strong>{`${pad5}Samstag `}</strong>
-                            {`${nb} ${nb} ${nb}08:00 – 16:00`}
-                            <br />
-                            <strong>{`${pad5}Sonntag`}</strong>
-                            {`${nb} ${nb} ${nb} Geschlossen`}
-                          </p>
+                          <OpeningHours />
                         </Widget>
                         <Widget id="bfc1d89" type="icon-list" extra="elementor-icon-list--layout-traditional elementor-list-item-link-full_width">
                           <ul className="elementor-icon-list-items">
@@ -280,7 +280,7 @@ export default function HomePage() {
                         </Widget>
                       </Boxed>
 
-                      {/* Reviews: original Trustindex Google widget (7 reviews), rebuilt statically. */}
+                      {/* Reviews: summary card + review cards (components/GoogleReviews.tsx), 7 reviews from the original widget. */}
                       <Boxed id="449c718">
                         <Heading id="0c6903c">Unsere Bewertungen</Heading>
                         <Widget id="7b9f478" type="shortcode" anim="fadeInUp">
