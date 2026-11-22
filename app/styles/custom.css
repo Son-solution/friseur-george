@@ -387,14 +387,22 @@ body,
   font-weight: 400;
 }
 
-/* ---------- Öffnungszeiten: one row per day, day left / time right, today highlighted ---------- */
+/* ---------- Öffnungszeiten: one row per day, day left / time right, today highlighted ----------
+ * Colours come from --hours-ink / --hours-paper: dark sections (home) by default,
+ * .fg-hours--light for white sections (/kontakt/). */
 .fg-hours {
+  --hours-ink: 255, 255, 255;
+  --hours-paper: #000;
   list-style: none;
   margin: 0 auto;
   padding: 0;
   max-width: 520px;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid rgba(var(--hours-ink), 0.18);
   text-align: left;
+}
+.fg-hours--light {
+  --hours-ink: 0, 0, 0;
+  --hours-paper: #fff;
 }
 .fg-hours-row {
   display: flex;
@@ -403,8 +411,8 @@ body,
   gap: 1em;
   margin: 0;
   padding: 0.6em 0.75em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(var(--hours-ink), 0.18);
+  color: rgba(var(--hours-ink), 0.82);
   font-size: 18px;
   line-height: 1.4;
 }
@@ -413,13 +421,13 @@ body,
   font-variant-numeric: tabular-nums;
 }
 .fg-hours-row.is-closed .fg-hours-time {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(var(--hours-ink), 0.5);
 }
-/* today: inverted row (black site → white row, black text), bold */
+/* today: inverted row, bold */
 .fg-hours-row.is-today,
 .fg-hours-row.is-today.is-closed .fg-hours-time {
-  background: #fff;
-  color: #000;
+  background: rgb(var(--hours-ink));
+  color: var(--hours-paper);
   font-weight: 600;
 }
 
@@ -785,4 +793,29 @@ body,
   text-align-last: center;
   hyphens: auto;
   -webkit-hyphens: auto;
+}
+
+/* ---------- /kontakt/: side gutters (text touched the screen edge on mobile) ---------- */
+/* The page's own Elementor CSS (post-29) was never rebuilt, so this container had no
+   --display and rendered as `display: inline` (padding had no effect). Give it the usual
+   flex column plus 20px side gutters. */
+.elementor-29 .elementor-element.elementor-element-e38d527 {
+  --display: flex;
+  --flex-direction: column;
+  --container-widget-width: 100%;
+  --padding-left: 20px;
+  --padding-right: 20px;
+}
+/* heading, hours and address centred */
+.elementor-29 .elementor-element.elementor-element-85a6014,
+.elementor-29 .elementor-element.elementor-element-801acbe {
+  text-align: center;
+}
+
+/* /damen/ and /herren/: the theme's white .site background showed as an empty white band
+   between the short content and the footer – make it black like the rest of these pages */
+/* (body … needed to beat Kadence's `body.content-style-unboxed .site`) */
+body .site:has(.fg-service-split),
+body.content-style-unboxed .site:has(.fg-service-split) {
+  background: #000;
 }

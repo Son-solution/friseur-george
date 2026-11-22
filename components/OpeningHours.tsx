@@ -14,7 +14,7 @@ function todayIndex(): number {
  * Today's row is highlighted; it is computed after mount so the server HTML stays
  * the same for every visitor (no hydration mismatch).
  */
-export default function OpeningHours() {
+export default function OpeningHours({ light = false }: { light?: boolean }) {
   const [today, setToday] = useState<number | null>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function OpeningHours() {
   }, []);
 
   return (
-    <ul className="fg-hours">
+    <ul className={`fg-hours${light ? " fg-hours--light" : ""}`}>
       {OPENING_HOURS.map((row, i) => (
         <li key={row.day} className={`fg-hours-row${i === today ? " is-today" : ""}${row.hours ? "" : " is-closed"}`} aria-current={i === today ? "date" : undefined}>
           <span className="fg-hours-day">{row.day}</span>
