@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MAPS_PLACE_URL } from "@/lib/site";
+import reviewsData from "@/data/reviews.json";
 
 /**
  * Google reviews: a summary card (rating, stars, link to the Google listing) followed by
@@ -10,58 +11,15 @@ import { MAPS_PLACE_URL } from "@/lib/site";
  * Styles: .fg-reviews in app/styles/custom.css.
  */
 
-type Review = { time: number; name: string; avatar: string; text: string };
-
-/** Overall Google rating shown in the summary card. */
-const RATING = "5,0";
-/** Total number of Google reviews; null hides the number ("Bewertungen auf Google"). */
-const REVIEW_COUNT: number | null = null;
-
-// Review data as printed in the original <template id="trustindex-google-widget-html"> (all 5 stars).
-const REVIEWS: Review[] = [
-  {
-    time: 1772668800,
-    name: "Nina Tratz",
-    avatar: "/trustindex/avatars/1.png",
-    text: "Noch nie so glücklich aus einem Frisörladen gekommen ! Wunderbares Färben, schneiden und föhnen ! Sehr zu empfehlen! Preis Leitung ist absolut top! Danke !!!",
-  },
-  {
-    time: 1771891200,
-    name: "Somayyeh Abolhasani",
-    avatar: "/trustindex/avatars/2.png",
-    text: "Ich war heute zum ersten Mal in diesem Salon  und bin absolut begeistert! Das gesamte Team ist unglaublich freundlich, herzlich und professionell. Auch ohne Termin hat man sich Zeit für mich genommen und alles möglich gemacht, das ist wirklich nicht selbstverständlich.\nDie Beratung war kompetent und ehrlich, und mit dem Ergebnis bin ich mehr als zufrieden. Genau so habe ich mir meinen Haarschnitt vorgestellt👍\nIch komme auf jeden Fall wieder und kann den Salon nur weiterempfehlen. ✂️😊🙏",
-  },
-  {
-    time: 1770595200,
-    name: "K 2",
-    avatar: "/trustindex/avatars/3.png",
-    text: "Top Friseursalon! Sehr professionell, super Ergebnis, klare Empfehlung!",
-  },
-  {
-    time: 1767398400,
-    name: "Monika Lupelli",
-    avatar: "/trustindex/avatars/4.png",
-    text: "Ein sehr schönes gleichmäßiges Ergebnis. Haare sind gleichmäßig Blond mit schönen Highlights",
-  },
-  {
-    time: 1756771200,
-    name: "Jana Meise",
-    avatar: "/trustindex/avatars/5.png",
-    text: "Ich bin schon viele Jahre bei George Kundin und mehr als zufrieden.\nEr berät mich immer gut und sagt ehrlich, wenn etwas nicht möglich ist.\nEr hat vor vielen Jahren meine Haare gerettet und daher kann ich diesen Friseur nur empfehlen! :)",
-  },
-  {
-    time: 1756771200,
-    name: "Dors Badil",
-    avatar: "/trustindex/avatars/6.png",
-    text: "Very good job and friendly and understanding did what I needed I am from USA thank you George",
-  },
-  {
-    time: 1754697600,
-    name: "Esra Sarica",
-    avatar: "/trustindex/avatars/7.png",
-    text: "Ich war heute zum ersten Mal in diesem Salon und bin rundum begeistert!\nDie Beratung war sehr ausführlich und individuell. Es wurde genau auf meine Wünsche eingegangen und ich habe viele hilfreiche Tipps bekommen.\nDer Haarschnitt ist perfekt geworden, genau so, wie ich es mir vorgestellt habe.\nMan merkt sofort, dass hier mit viel Fachwissen, Sorgfalt und Leidenschaft gearbeitet wird.\nIch fühle mich mit meinem neuen Look richtig wohl und komme definitiv wieder.\nVielen Dank für die tolle Arbeit!",
-  },
-];
+/**
+ * Data: data/reviews.json – refreshed every 10 days from the public Google Maps listing by
+ * scripts/update-reviews.mjs (GitHub Actions: .github/workflows/update-reviews.yml).
+ */
+type Review = { id?: string; name: string; text: string };
+const DATA = reviewsData as { updatedAt: string; rating: string; count: number | null; reviews: Review[] };
+const RATING = DATA.rating;
+const REVIEW_COUNT = DATA.count;
+const REVIEWS = DATA.reviews;
 
 const REVIEWS_PER_PAGE = 4;
 
@@ -145,7 +103,7 @@ export default function GoogleReviews() {
       </div>
 
       {REVIEWS.slice(0, visible).map((r) => (
-        <ReviewCard key={r.name} review={r} />
+        <ReviewCard key={r.id || r.name} review={r} />
       ))}
 
       {visible < REVIEWS.length && (

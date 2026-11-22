@@ -1,0 +1,49 @@
+# Refreshes data/reviews.json from the public Google Maps listing every 10 days.
+# A changed file is committed to main, which triggers the normal Vercel deploy.
+# If scraping fails, scripts/update-reviews.mjs leaves the file untouched (site keeps the last good data).
+name: Update Google reviews
+
+on:
+  schedule:
+    - cron: "17 5 1,11,21 * *" # 1st, 11th, 21st of each month, 05:17 UTC
+  workflow_dispatch: # manual "Run workflow" button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-reviews
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright (not a project dependency)
+        run: |
+          npm i --no-save --no-package-lock playwright@1.49.1
+          npx playwright install --with-deps chromium
+
+      - name: Scrape reviews
+        run: node scripts/update-reviews.mjs data/reviews.json
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/reviews.json; then
+            echo "No review changes."
+            exit 0
+          fi
+          # Commit as the author of the latest commit, so Vercel accepts the deploy
+          # (Vercel can block deploys whose author is not a member of the project).
+          git config user.name  "$(git log -1 --format=%an)"
+          git config user.email "$(git log -1 --format=%ae)"
+          git add data/reviews.json
+          git commit -m "Update Google reviews ($(date -u +%Y-%m-%d))"
+          git push
