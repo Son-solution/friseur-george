@@ -31,8 +31,13 @@ const EXCLUDE_IDS = new Set([
 const COMPLAINT_WORDS = /peinlich|beschwerde|enttäusch|unverschämt|nicht erschienen|absagen|---\s*update/i;
 
 const log = (...a) => console.log("[reviews]", ...a);
+// On GitHub Actions, ::notice:: / ::warning:: become annotations on the run, readable
+// via the public check-runs API without logging in (job logs need auth).
+const CI = !!process.env.GITHUB_ACTIONS;
+const annotate = (level, msg) => CI && console.log(`::${level} title=Google reviews::${msg.replace(/\n/g, " ")}`);
 const fail = (msg) => {
   console.error("[reviews] SKIPPED, file unchanged:", msg);
+  annotate("warning", `SKIPPED, file unchanged: ${msg}`);
   process.exit(0); // not an error for CI: just keep the old data
 };
 
@@ -149,11 +154,14 @@ try {
 
   const before = JSON.stringify({ ...previous, updatedAt: undefined });
   const after = JSON.stringify({ ...data, updatedAt: undefined });
+  const summary = `OK: rating ${rating}, ${count} reviews on Google, ${scraped.length} scraped, ${fresh.length} usable`;
   if (before === after) {
     log("no changes");
+    annotate("notice", `${summary}; no changes`);
   } else {
     writeFileSync(OUT, JSON.stringify(data, null, 2) + "\n");
     log("written", OUT, `(${data.reviews.length} reviews)`);
+    annotate("notice", `${summary}; updated (${data.reviews.length} reviews saved)`);
   }
 } catch (e) {
   fail(e instanceof Error ? e.message : String(e));
